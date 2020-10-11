@@ -5,12 +5,13 @@ services:
     app:
         build: .
         container_name: micro-videos-app
-        entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 40s ./.docker/entrypoint.sh
+        entrypoint: dockerize -template ./.docker/app/.env:.env -template ./.docker/app/.env.testing:.env.testing -wait tcp://db:3306 -timeout 40s ./.docker/entrypoint.sh
         environment:
             - _DB_HOST=db
             - _DB_DATABASE=code_micro_videos
             - _DB_USERNAME=root
             - _DB_PASSWORD=root
+            - _TEST_DB_DATABASE=code_micro_videos_test
         volumes:
             - .:/var/www
         networks:
@@ -18,6 +19,17 @@ services:
         depends_on:
             - db
             - redis
+
+    app_tests:
+        build: .
+        container_name: micro-videos-app-tests
+        entrypoint: ./.docker/entrypoint-test.sh
+        volumes:
+            - .:/var/www
+        networks:
+            - app-network
+        depends_on:
+            - db
 
     nginx:
         build: .docker/nginx
@@ -42,8 +54,8 @@ services:
             - "33006:3306"
         volumes:
             - ./.docker/dbdata:/var/lib/mysql
+            - ./.docker/mysql:/docker-entrypoint-initdb.d
         environment:
-            - MYSQL_DATABASE=code_micro_videos
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=root
         networks:

@@ -125,4 +125,14 @@ class CategoryTest extends TestCase
 
         $this->assertCount(0, $categories);
     }
+
+    public function testRestore()
+    {
+        $category = factory(Category::class)->create();
+        $category->delete();
+        $this->assertNull(Category::find($category->id));
+
+        $category->restore();
+        $this->assertNotNull(Category::find($category->id));
+    }
 }

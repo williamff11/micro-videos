@@ -14,8 +14,10 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
+        /** @var TestResponse $response */
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertDontSee('Category');
     }
 }

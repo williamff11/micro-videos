@@ -102,4 +102,14 @@ class GenreTest extends TestCase
 
         $this->assertCount(0, $genres);
     }
+
+    public function testRestore()
+    {
+        $genre = factory(Genre::class)->create();
+        $genre->delete();
+        $this->assertNull(Genre::find($genre->id));
+
+        $genre->restore();
+        $this->assertNotNull(Genre::find($genre->id));
+    }
 }

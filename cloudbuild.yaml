@@ -3,10 +3,6 @@ steps:
     name: "gcr.io/$PROJECT_ID/docker-compose:1.25.5"
     args: ["-f", "docker-compose.cloudbuild.yaml", "up", "-d"]
 
-  - id: "Run docker ps"
-    name: "docker"
-    args: ["ps"]
-
   - id: "Chown in /var/www"
     name: "docker"
     args:
@@ -48,4 +44,13 @@ steps:
 
   - id: "Run PHPunit"
     name: "docker"
-    args: ["exec", "-t", "app", "php", "/var/www/vendor/bin/phpunit", "-c",'/var/www/phpunit.xml']
+    args:
+      [
+        "exec",
+        "-t",
+        "app",
+        "php",
+        "/var/www/vendor/bin/phpunit",
+        "-c",
+        "/var/www/phpunit.xml",
+      ]

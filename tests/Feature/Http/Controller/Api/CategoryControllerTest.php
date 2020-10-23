@@ -37,6 +37,17 @@ class CategoryControllerTest extends TestCase
             ->assertJson($category->toArray());
     }
 
+
+    public function testDelete()
+    {
+        $category = factory(Category::class)->create();
+        $response = $this->delete(route('categories.destroy', ['category' => $category->id]));
+
+        $response
+            ->assertStatus(204)
+            ->assertNoContent();
+    }
+
     public function testInvalidationData()
     {
         $response = $this->json('POST', route('categories.store'), []);

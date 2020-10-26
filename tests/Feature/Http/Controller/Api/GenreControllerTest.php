@@ -39,6 +39,9 @@ class GenreControllerTest extends TestCase
         $response
             ->assertStatus(204)
             ->assertNoContent();
+
+        $this->assertNull(Genre::find($genre->id));
+        $this->assertNotNull(Genre::withTrashed()->find($genre->id));
     }
 
     public function testInvalidationData()

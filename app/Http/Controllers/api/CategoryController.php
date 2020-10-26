@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request) //?only_trashed
     {
-        if($request->has('only_trashed')){
+        if ($request->has('only_trashed')) {
             return Category::onlyTrashed()->get();
         }
         return Category::all();
@@ -38,6 +38,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return response()->noContent(); //204 - No Content
+        return response()->noContent();
     }
 }

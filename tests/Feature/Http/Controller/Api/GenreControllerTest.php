@@ -6,11 +6,11 @@ use App\Models\Genre;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Tests\Traits\TestSaves;
-use Tests\Traits\TestValidation;
+use Tests\Traits\TestValidations;
 
 class GenreControllerTest extends TestCase
 {
-    use DatabaseMigrations, TestValidation, TestSaves;
+    use DatabaseMigrations, TestValidations, TestSaves;
 
     private $genre;
 
